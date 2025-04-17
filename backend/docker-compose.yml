@@ -1,0 +1,127 @@
+version: '3.8'
+
+services:
+  api-gateway:
+    build: ./api-gateway
+    ports:
+      - "8085:8080"
+    environment:
+      - USER_SERVICE_URL=http://user-service:5001
+      - AUTH_SERVICE_URL=http://auth-service:5002
+      - PRODUCT_SERVICE_URL=http://product-service:5003
+      - ORDER_SERVICE_URL=http://order-service:5004
+      - INVENTORY_SERVICE_URL=http://inventory-service:5005
+      - CART_SERVICE_URL=http://cart-service:5006
+      - PAYMENT_SERVICE_URL=http://payment-service:5007
+    depends_on:
+      - user-service
+      - auth-service
+      - product-service
+      - order-service
+      - inventory-service
+      - cart-service
+      - payment-service
+    networks:
+      - ecommerce-network
+
+  user-service:
+    build: ./user-service
+    ports:
+      - "5009:5001"
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_URI=mongodb+srv://gavithrachatgpt:2TRO9WVJg5EMQY2e@cluster0.pwe9uja.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+    restart: always
+    networks:
+      - ecommerce-network
+
+  auth-service:
+    build: ./auth-service
+    ports:
+      - "5010:5002"
+    depends_on:
+      - user-service
+    environment:
+      - MONGO_URI=mongodb+srv://gavithrachatgpt:2TRO9WVJg5EMQY2e@cluster0.pwe9uja.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+    restart: always
+    networks:
+      - ecommerce-network
+
+  product-service:
+    build: ./product-service
+    ports:
+      - "5011:5003"
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_URI=mongodb+srv://hansaniprojects:hxflRjA243ryRSU0@cluster0.uc7gq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+    restart: always
+    networks:
+      - ecommerce-network
+
+  order-service:
+    build: ./order-service
+    ports:
+      - "5012:5004"
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_URI=mongodb+srv://hansaniprojects:7UMrJiW9CFk07IyP@orderdb-ctse.efhov85.mongodb.net/?retryWrites=true&w=majority&appName=OrderDB-CTSE
+    restart: always
+    networks:
+      - ecommerce-network
+
+  inventory-service:
+    build: ./inventory-service
+    ports:
+      - "5013:5005"
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_URI=mongodb+srv://Itp1234:Itp1234@cluster1.7wgentw.mongodb.net/LOgix_Fleet_Management_System_db?retryWrites=true&w=majority
+    restart: always
+    networks:
+      - ecommerce-network
+
+  cart-service:
+    build: ./cart-service
+    ports:
+      - "5014:5006"
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_URI=mongodb+srv://Itp1234:Itp1234@cluster1.7wgentw.mongodb.net/LOgix_Fleet_Management_System_db?retryWrites=true&w=majority
+    restart: always
+    networks:
+      - ecommerce-network
+
+  payment-service:
+    build: ./payment-service
+    ports:
+      - "5015:5007"
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_URI=mongodb+srv://Itp1234:Itp1234@cluster1.7wgentw.mongodb.net/LOgix_Fleet_Management_System_db?retryWrites=true&w=majority
+    restart: always
+    networks:
+      - ecommerce-network
+
+  mongo:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - ecommerce-network
+    restart: always
+
+networks:
+  ecommerce-network:
+    driver: bridge
+
+volumes:
+  mongo-data:

@@ -1,0 +1,2 @@
+PORT=5005
+MONGO_URI=mongodb+srv://Itp1234:Itp1234@cluster1.7wgentw.mongodb.net/LOgix_Fleet_Management_System_db?retryWrites=true&w=majority

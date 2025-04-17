@@ -1,0 +1,2 @@
+PORT=5001
+MONGO_URI=mongodb+srv://gavithrachatgpt:2TRO9WVJg5EMQY2e@cluster0.pwe9uja.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
