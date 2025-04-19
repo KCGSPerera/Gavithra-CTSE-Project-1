@@ -3,7 +3,7 @@ name: 🚀 Deploy Microservices to AWS ECS
 on:
   push:
     branches:
-      - main  # Run only after code is pushed to main (after deploy.yml)
+      - main
 
 jobs:
   deploy-to-ecs:
@@ -19,68 +19,68 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: eu-north-1  # Change if your region differs
-
-    #   # --- User Service ---
-    #   - name: 🚀 Update ECS - user-service
-    #     uses: aws-actions/amazon-ecs-update-service@v1
-    #     with:
-    #       cluster: ecommerce-cluster
-    #       service: user-service
-        #   task-definition: user-service-task
+          aws-region: eu-north-1
 
       # --- Auth Service ---
-      - name: 🚀 Update ECS - auth-service
-        uses: aws-actions/amazon-ecs-update-service@v1
-        with:
-          cluster: ecommerce-cluster
-          service: auth-service
-          task-definition: auth-service-task
+      - name: 🚀 Deploy auth-service to ECS
+        run: |
+          aws ecs update-service \
+            --cluster ecommerce-cluster \
+            --service auth-service \
+            --force-new-deployment
+
+    #   # --- User Service ---
+    #   - name: 🚀 Deploy user-service to ECS
+    #     run: |
+    #       aws ecs update-service \
+    #         --cluster ecommerce-cluster \
+    #         --service user-service \
+    #         --force-new-deployment
 
       # --- Product Service ---
-      - name: 🚀 Update ECS - product-service
-        uses: aws-actions/amazon-ecs-update-service@v1
-        with:
-          cluster: ecommerce-cluster
-          service: product-service
-          task-definition: product-service-task
+      - name: 🚀 Deploy product-service to ECS
+        run: |
+          aws ecs update-service \
+            --cluster ecommerce-cluster \
+            --service product-service \
+            --force-new-deployment
 
       # --- Order Service ---
-      - name: 🚀 Update ECS - order-service
-        uses: aws-actions/amazon-ecs-update-service@v1
-        with:
-          cluster: ecommerce-cluster
-          service: order-service
-          task-definition: order-service-task
-
-      # --- Inventory Service ---
-      - name: 🚀 Update ECS - inventory-service
-        uses: aws-actions/amazon-ecs-update-service@v1
-        with:
-          cluster: ecommerce-cluster
-          service: inventory-service
-          task-definition: inventory-service-task
+      - name: 🚀 Deploy order-service to ECS
+        run: |
+          aws ecs update-service \
+            --cluster ecommerce-cluster \
+            --service order-service \
+            --force-new-deployment
 
       # --- Cart Service ---
-      - name: 🚀 Update ECS - cart-service
-        uses: aws-actions/amazon-ecs-update-service@v1
-        with:
-          cluster: ecommerce-cluster
-          service: cart-service
-          task-definition: cart-service-task
+      - name: 🚀 Deploy cart-service to ECS
+        run: |
+          aws ecs update-service \
+            --cluster ecommerce-cluster \
+            --service cart-service \
+            --force-new-deployment
+
+      # --- Inventory Service ---
+      - name: 🚀 Deploy inventory-service to ECS
+        run: |
+          aws ecs update-service \
+            --cluster ecommerce-cluster \
+            --service inventory-service \
+            --force-new-deployment
 
       # --- Payment Service ---
-      - name: 🚀 Update ECS - payment-service
-        uses: aws-actions/amazon-ecs-update-service@v1
-        with:
-          cluster: ecommerce-cluster
-          service: payment-service
-          task-definition: payment-service-task
+      - name: 🚀 Deploy payment-service to ECS
+        run: |
+          aws ecs update-service \
+            --cluster ecommerce-cluster \
+            --service payment-service \
+            --force-new-deployment
 
       # --- API Gateway ---
-      - name: 🚀 Update ECS - api-gateway
-        uses: aws-actions/amazon-ecs-update-service@v1
-        with:
-          cluster: ecommerce-cluster
-          service: api-gateway
-          task-definition: api-gateway-task
+      - name: 🚀 Deploy api-gateway to ECS
+        run: |
+          aws ecs update-service \
+            --cluster ecommerce-cluster \
+            --service api-gateway \
+            --force-new-deployment
