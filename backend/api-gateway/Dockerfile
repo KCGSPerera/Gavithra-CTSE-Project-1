@@ -12,7 +12,8 @@ RUN npm install
 COPY . .
 
 # Expose service port (change per service if needed)
-EXPOSE 8082  
+# Before Port = 8082
+EXPOSE 8080    
 # For auth-service
 # or EXPOSE 5001  # For user-service
 # or EXPOSE 8082  # For api-gateway
