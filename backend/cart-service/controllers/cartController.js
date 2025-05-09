@@ -242,7 +242,7 @@ exports.addToCart = async (req, res) => {
         await updateInventoryQuantity(oldItem.pid, oldItem.quantity, req);
       }
     }
-
+// Updated the URL here
     const enrichedItems = await Promise.all(items.map(async (item) => {
       const productRes = await axios.get(
         `http://api-gateway.ecommerce-namespace:8080/api/products/product-service/${item.pid}`,
