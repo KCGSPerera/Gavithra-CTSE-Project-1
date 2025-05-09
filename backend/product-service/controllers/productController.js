@@ -2,7 +2,7 @@ const Product = require("../models/Product");
 require("dotenv").config();
 
 // Create a new product
-exports.createProduct = async (req, res) => {
+exports.createProduct1 = async (req, res) => {
     try {
         const product = new Product(req.body);
         await product.save();
@@ -11,6 +11,24 @@ exports.createProduct = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+exports.createProduct = async (req, res) => {
+    try {
+        // Check if a product with the same name already exists
+        const existingProduct = await Product.findOne({ name: req.body.name });
+        if (existingProduct) {
+            return res.status(400).json({ message: "Product name already exists." });
+        }
+
+        // Create and save the new product
+        const product = new Product(req.body);
+        await product.save();
+        res.status(201).json(product);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 
 // Get all products
 exports.getAllProducts = async (req, res) => {
