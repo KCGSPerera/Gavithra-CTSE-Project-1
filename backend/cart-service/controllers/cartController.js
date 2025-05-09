@@ -56,7 +56,7 @@ const updateInventoryQuantity = async (pid, quantityChange, req) => {
   try {
     // Step 1: Fetch inventory item (for safety/logging only)
     const res = await axios.get(
-      `http://api-gateway:8080/api/inventories/inventory-service/pid/${pid}`,
+      `http://api-gateway.ecommerce-namespace:8080/api/inventories/inventory-service/pid/${pid}`,
       {
         headers: {
           Authorization: req.headers.authorization || '',
@@ -73,7 +73,7 @@ const updateInventoryQuantity = async (pid, quantityChange, req) => {
 
     // Step 2: PUT only quantity delta (backend adds to both quantity + remainingQuantity)
     await axios.put(
-      `http://api-gateway:8080/api/inventories/inventory-service/pid/${pid}`,
+      `http://api-gateway.ecommerce-namespace:8080/api/inventories/inventory-service/pid/${pid}`,
       {
         quantity: quantityChange // backend adds this to current quantity + remainingQuantity
       },
@@ -245,7 +245,7 @@ exports.addToCart = async (req, res) => {
 
     const enrichedItems = await Promise.all(items.map(async (item) => {
       const productRes = await axios.get(
-        `http://api-gateway:8080/api/products/product-service/${item.pid}`,
+        `http://api-gateway.ecommerce-namespace:8080/api/products/product-service/${item.pid}`,
         {
           headers: {
             Authorization: req.headers.authorization || '',
